@@ -15,13 +15,12 @@ A library to ease communication with the Opencast ingest REST-endpoint
 On Linux you can install the dependencies with your package manager, on Windows you can install them from source with the cmake install target `install`.
 
 Go into the source dir and execute the following commands:
-```
+```bash
 mkdir build
 cd build/
 cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
 ```
-Then execute: `cmake --build .`
-or on Windows `cmake --build . --config Release`
 
 Warning (Windows): You can only have one version of the dependencies (32/64-bit) installed, so if you want to build 32 and 64-bit versions you have to remove the other version of the dependency first.
 
