@@ -77,25 +77,25 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.git)
 	if(GIT_FOUND)
 		execute_process(COMMAND ${GIT_EXECUTABLE} describe
 		    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-		    OUTPUT_VARIABLE build_version
+		    OUTPUT_VARIABLE ${project_name}_VERSION
 		    ERROR_QUIET
 		    OUTPUT_STRIP_TRAILING_WHITESPACE
 		)
 	else()
-		set(build_version "VERSION_NOT_FOUND")
+		set(${project_name}_VERSION "VERSION_NOT_FOUND")
 	endif()
 else()
-	set(build_version "VERSION_NOT_FOUND")
+	set(${project_name}_VERSION "VERSION_NOT_FOUND")
 endif()
-# build_version is currently unused
-message("Build Version: ${build_version}" )
+message("Build Version: ${${project_name}_VERSION}" )
 
 
 # main
 
 set(main_gnucxx_warn_err_compile_flags "-Wall -Wextra -pedantic-errors")
 
-set(source "src/libOpencastIngest.cpp" "src/libOpencastIngest.hpp" "src/libOpencastIngest.h")
+set(headers "src/libOpencastIngest.hpp" "src/libOpencastIngest.h")
+set(source "src/libOpencastIngest.cpp" ${headers})
 
 message("================================================")
 message("Name (lib using C++11): ${project_name}")
@@ -159,3 +159,26 @@ set_target_properties(${test_name} PROPERTIES
 )
 target_compile_definitions(${test_name} PRIVATE -DLIBOPENCASTINGEST_AS_DYNAMIC_LIB)
 target_link_libraries(${test_name} ${test_libs})
+
+message("================================================")
+# build a CPack driven installer package
+include (InstallRequiredSystemLibraries)
+set(CPACK_PACKAGE_NAME "lib${project_name}")
+set(CPACK_PACKAGE_VERSION "${${project_name}_VERSION}")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/license")
+set(CPACK_PACKAGING_INSTALL_PREFIX "/")
+set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}.${CMAKE_SYSTEM_PROCESSOR}")
+if(WIN32)
+set(CPACK_GENERATOR "ZIP")
+message("Packaging type: ZIP")
+message("Packaging output: ${CPACK_PACKAGE_FILE_NAME}.zip")
+else()
+set(CPACK_GENERATOR "TGZ")
+message("Packaging type: TGZ")
+message("Packaging output: ${CPACK_PACKAGE_FILE_NAME}.tar.gz")
+endif()
+include(CPack)
+
+install(FILES ${headers} DESTINATION include)
+install(TARGETS ${project_name} DESTINATION lib)
+install(TARGETS ${name_static_lib} DESTINATION lib)
