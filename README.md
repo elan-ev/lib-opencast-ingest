@@ -1,5 +1,8 @@
 # libOpencastIngest
 
+[![CircleCI](https://circleci.com/gh/elan-ev/lib-opencast-ingest/tree/master.svg?style=svg)
+](https://circleci.com/gh/elan-ev/lib-opencast-ingest/tree/master)
+
 A library to ease communication with the Opencast ingest REST-endpoint
 
 
