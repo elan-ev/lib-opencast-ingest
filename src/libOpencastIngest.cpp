@@ -12,6 +12,30 @@ using std::string;
 namespace libOpencastIngest
 {
 
+static std::string sanitizeEndpointUrl(
+		std::string instanceUrl,
+		const std::string & endpoint)
+{
+
+	// ensure a protocol is defined
+	if (instanceUrl.rfind("http://", 0) != 0
+			&& instanceUrl.rfind("https://", 0) != 0)
+	{
+	  // no protocol specified -> try using https.
+	  // assuming https and not http since we may send unencrypted credentials.
+	  instanceUrl = "https://" + instanceUrl;
+	}
+
+	// ensure the URL part ends with a /
+	if (instanceUrl.compare(instanceUrl.length() - 1, 1, "/") != 0)
+	{
+		instanceUrl = instanceUrl + "/";
+	}
+
+	// concatenate path
+	return instanceUrl + endpoint;
+}
+
 static size_t CurlWriteMemoryCallback(char * contents, size_t size, size_t nmemb, std::string * userp)
 {
 	size_t realsize = size * nmemb;
@@ -35,7 +59,7 @@ static std::string createMediaPackage(
 	string dataBuffer{};
 	// string headerBuffer{};
 
-	string url = opencastInstanceUrl + "ingest/createMediaPackage";
+	string url = sanitizeEndpointUrl(opencastInstanceUrl, "ingest/createMediaPackage");
 	string auth = username + ":" + password;
 
 	long httpCode = 0;
@@ -131,7 +155,7 @@ static std::string addDCCatalog(
 		long * outCurlReturnCode,
 		long * outHttpReturnCode)
 {
-	string url = opencastInstanceUrl + "ingest/addDCCatalog";
+	string url = sanitizeEndpointUrl(opencastInstanceUrl, "ingest/addDCCatalog");
 	string auth = username + ":" + password;
 
 	string dataBuffer{};
@@ -230,7 +254,7 @@ static std::string addTrack(
 		long * outHttpReturnCode)
 {
 
-	string url = opencastInstanceUrl + "ingest/addTrack";
+	string url = sanitizeEndpointUrl(opencastInstanceUrl, "ingest/addTrack");
 	string auth = username + ":" + password;
 
 	string dataBuffer{};
@@ -330,7 +354,7 @@ static std::string ingest(
 		long * outCurlReturnCode,
 		long * outHttpReturnCode)
 {
-	string url = opencastInstanceUrl + "ingest/ingest/" + workflowId;
+	string url = sanitizeEndpointUrl(opencastInstanceUrl, "ingest/ingest/" + workflowId);
 	string auth = username + ":" + password;
 
 	string dataBuffer{};
