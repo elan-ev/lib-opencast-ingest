@@ -62,7 +62,7 @@ static std::string createMediaPackage(
 	}
 	else if (authType == LIBOPENCASTINGEST_BASICAUTH)
 	{
-		// TODO when useable
+		curl_easy_setopt(hnd, CURLOPT_USERPWD, auth.c_str());
 	}
 	else if (authType == LIBOPENCASTINGEST_COOKIEAUTH)
 	{
@@ -176,7 +176,7 @@ static std::string addDCCatalog(
 	}
 	else if (authType == LIBOPENCASTINGEST_BASICAUTH)
 	{
-		// TODO when useable
+		curl_easy_setopt(hnd, CURLOPT_USERPWD, auth.c_str());
 	}
 	else if (authType == LIBOPENCASTINGEST_COOKIEAUTH)
 	{
@@ -276,7 +276,7 @@ static std::string addTrack(
 	}
 	else if (authType == LIBOPENCASTINGEST_BASICAUTH)
 	{
-		// TODO when useable
+		curl_easy_setopt(hnd, CURLOPT_USERPWD, auth.c_str());
 	}
 	else if (authType == LIBOPENCASTINGEST_COOKIEAUTH)
 	{
@@ -367,7 +367,7 @@ static std::string ingest(
 	}
 	else if (authType == LIBOPENCASTINGEST_BASICAUTH)
 	{
-		// TODO when useable
+		curl_easy_setopt(hnd, CURLOPT_USERPWD, auth.c_str());
 	}
 	else if (authType == LIBOPENCASTINGEST_COOKIEAUTH)
 	{
