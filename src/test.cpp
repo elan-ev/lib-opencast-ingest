@@ -34,13 +34,12 @@ static void throwWhenError(long curlReturnCode, long httpReturnCode)
 	return;
 }
 
-
 // just a rudimentary test for the library
 // can also be used as an example
 int main(void){
 
 	// testing generateDCCatalog
-	
+
 	string genDC = generateDCCatalog("created", "a", "b", "c", "d", "e", "f", "g", "h", "i");
 
 	cout << "Generated DCCatalog: " << genDC << endl << endl;
@@ -56,7 +55,15 @@ int main(void){
 
 
 	string flavorDCCatalog = "dublincore/episode";
-	string DCCatalog = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><dublincore xmlns=\"http://www.opencastproject.org/xsd/1.0/dublincore/\" xmlns:dcterms=\"http://purl.org/dc/terms/\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><dcterms:created xsi:type=\"dcterms:W3CDTF\">2017-05-24T15:28Z</dcterms:created><dcterms:creator>Test Creator</dcterms:creator><dcterms:extent xsi:type=\"dcterms:ISO8601\">PT5.568S</dcterms:extent><dcterms:title>Test Title</dcterms:title></dublincore>";
+	string DCCatalog = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+		"<dublincore xmlns=\"http://www.opencastproject.org/xsd/1.0/dublincore/\""
+		"            xmlns:dcterms=\"http://purl.org/dc/terms/\""
+		"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
+		"  <dcterms:created xsi:type=\"dcterms:W3CDTF\">2017-05-24T15:28Z</dcterms:created>"
+		"  <dcterms:creator>Test Creator</dcterms:creator>"
+		"  <dcterms:extent xsi:type=\"dcterms:ISO8601\">PT5.568S</dcterms:extent>"
+		"  <dcterms:title>Test Title</dcterms:title>"
+		"</dublincore>";
 
 	string flavorTrack = "presenter/source";
 	string pathToTrack = "video.flv";
